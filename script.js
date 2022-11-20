@@ -1,9 +1,13 @@
 const apiURL = 'https://type.fit/api/quotes';
+const intentTweetURL = 'https://twitter.com/intent/tweet';
 
 const quoteContainer = document.querySelector("#quote__container")
 const quoteText = document.querySelector('.quote--content__text');
 const quoteAuthor = document.querySelector('.quote--author h5');
-const loadingSpinner = document.querySelector("#loading__spinner")
+const loadingSpinner = document.querySelector("#loading__spinner");
+const newQuoteBtn = document.querySelector(".quote-buttons__new");
+const tweetBtn = document.querySelector(".quote-buttons__twitter");
+
 
 let quotesData = [];
 
@@ -12,7 +16,7 @@ function showLoadingSpinner() {
     quoteContainer.hidden = true;
 }
 
-function removeLoadingSpinner() {
+function removeLoadingSpinner() {   
     if(!loadingSpinner.hidden) {
         loadingSpinner.hidden = true;
         quoteContainer.hidden = false;
@@ -35,6 +39,14 @@ function getNewQuote() {
     quoteText.textContent = quote.text;
     removeLoadingSpinner()
 }
+
+const tweetQuote = () => {
+    const tweetUrl = `${intentTweetURL}?text=${quoteText.textContent} - ${quoteAuthor.textContent}`;
+    window.open(tweetUrl, '_blank')
+}
+
+newQuoteBtn.addEventListener('click', getNewQuote);
+tweetBtn.addEventListener('click', tweetQuote)
 
 async function fetchQuotes() {
     showLoadingSpinner()
